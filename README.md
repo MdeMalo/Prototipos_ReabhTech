@@ -12,7 +12,6 @@ Estos prototipos permiten:
 - Validar si las **posturas** son correctas o incorrectas.
 - Llevar un **contador de repeticiones** automáticamente.
 - **Guardar datos** en archivos CSV para analizar el progreso.
-- Mostrar un **asistente visual** animado que guía el ejercicio.
 
 ## 🎥 Tecnologías Utilizadas
 
@@ -26,8 +25,8 @@ Estos prototipos permiten:
 
 1. Clona el repositorio:
    ```bash
-   git clone https://github.com/tu_usuario/rehabtech-prototipos.git
-   cd rehabtech-prototipos
+   git clone https://github.com/MdeMalo/Prototipos_ReabhTech.git
+   cd Prototipos_ReabhTech
    ```
 
 2. Instala las dependencias:
@@ -48,13 +47,11 @@ Estos prototipos permiten:
 - Muestra un contador de repeticiones.
 - Advierte si la postura no es adecuada.
 - Guarda el historial de movimientos en un archivo CSV.
-- Muestra un "stickman" animado como guía.
 
 ## 🧪 Estado del Proyecto
 
 ✅ Funcionalidad básica de detección y seguimiento  
 ✅ Registro de repeticiones y datos  
-✅ Asistente visual animado  
 ❌ No validado clínicamente  
 ❌ No optimizado para múltiples tipos de ejercicios aún
 
