@@ -4,6 +4,7 @@ import math
 import csv
 from datetime import datetime
 import matplotlib.pyplot as plt
+import winsound 
 import numpy as np
 
 # Inicializar MediaPipe Pose
@@ -69,6 +70,15 @@ while cap.isOpened():
     results = pose.process(rgb)
 
     if results.pose_landmarks:
+        # Dibujar puntos de articulaciones y conexiones
+        mp_drawing.draw_landmarks(
+            frame,
+            results.pose_landmarks,
+            mp_pose.POSE_CONNECTIONS,
+            mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=4),  # Puntos verdes
+            mp_drawing.DrawingSpec(color=(255, 0, 0), thickness=2)  # Líneas rojas
+        )
+
         landmarks = results.pose_landmarks.landmark
 
         # BRAZO DERECHO
@@ -98,6 +108,7 @@ while cap.isOpened():
         if angulo_codo_der < 30 and estado_der == "bajando":
             contador_der += 1
             estado_der = "subiendo"
+            winsound.Beep(1000, 200)  # Sonido al completar una repetición
 
         # Mostrar datos en pantalla
         cv2.putText(frame, f'Der: {int(angulo_codo_der)} deg', 
@@ -111,7 +122,13 @@ while cap.isOpened():
             cv2.putText(frame, "Der: Corrige!", (30, 90),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 255), 2)
 
-        # --- También para brazo izquierdo (puedes usar igual que el derecho)
+        # Mostrar estado del brazo derecho
+        estado_texto_der = estado_der if estado_der is not None else "Sin movimiento"
+        cv2.putText(frame, f'Der Estado: {estado_texto_der}', 
+                    (30, 130), cv2.FONT_HERSHEY_SIMPLEX, 
+                    0.8, (255, 255, 255), 2, cv2.LINE_AA)
+
+        # BRAZO IZQUIERDO
         hombro_izq = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x * frame.shape[1],
                       landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y * frame.shape[0]]
         codo_izq = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x * frame.shape[1],
@@ -127,6 +144,12 @@ while cap.isOpened():
         if angulo_codo_izq < 30 and estado_izq == "bajando":
             contador_izq += 1
             estado_izq = "subiendo"
+
+        # Mostrar estado del brazo izquierdo
+        estado_texto_izq = estado_izq if estado_izq is not None else "Sin movimiento"
+        cv2.putText(frame, f'Izq Estado: {estado_texto_izq}', 
+                    (30, 170), cv2.FONT_HERSHEY_SIMPLEX, 
+                    0.8, (255, 255, 255), 2, cv2.LINE_AA)
 
     # Mostrar contador
     cv2.putText(frame, f'Reps Der: {contador_der}', (400, 50),
